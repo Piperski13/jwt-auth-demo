@@ -6,14 +6,19 @@ document.getElementById("profileBtn").addEventListener("click", getProfile);
 document.getElementById("logoutBtn").addEventListener("click", logout);
 
 async function register() {
-  const email = document.getElementById("regEmail").value;
-  const password = document.getElementById("regPassword").value;
+  let name = document.getElementById("regName").value;
+  let email = document.getElementById("regEmail").value;
+  let password = document.getElementById("regPassword").value;
 
   const res = await fetch("http://localhost:5000/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ name, email, password }),
   });
+
+  document.getElementById("regName").value = "";
+  document.getElementById("regEmail").value = "";
+  password = document.getElementById("regPassword").value = "";
 
   const data = await res.json();
   output.textContent = JSON.stringify(data, null, 2);
@@ -29,6 +34,9 @@ async function login() {
     body: JSON.stringify({ email, password }),
     credentials: "include", // VERY important for cookies
   });
+
+  document.getElementById("loginEmail").value = "";
+  document.getElementById("loginPassword").value = "";
 
   const data = await res.json();
   output.textContent = JSON.stringify(data, null, 2);
