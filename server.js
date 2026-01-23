@@ -1,6 +1,7 @@
 require("dotenv").config(); // Step 1: Load environment variables from .env
 const express = require("express");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -9,6 +10,11 @@ connectDB();
 
 // Step 3: Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(cookieParser());
+
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // Step 4: Mount auth routes
 // All auth-related routes will start with /api/auth

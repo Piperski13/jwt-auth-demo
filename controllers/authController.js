@@ -46,7 +46,17 @@ exports.login = async (req, res) => {
     const token = generateToken({ id: user._id, email: user.email });
 
     // Step 4: Send success response with token
-    res.json({ message: "Login successful!", token });
+    res.cookie("jwt", token, { httpOnly: true, secure: false });
+    res.json({ message: "Login successful!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    res.clearCookie("jwt");
+    res.json({ message: "Logged out" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
